@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>毒舌计划 - Toxic Plan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Manrope', 'sans-serif'],
+                        display: ['Manrope', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: "#0a0a0a",
+                        stageBlue: "#3b82f6",
+                        stageOrange: "#f97316",
+                        stageRed: "#ef4444",
+                    },
+                    animation: {
+                      'in': 'fadeIn 0.5s ease-out forwards',
+                      'slide-in-right': 'slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                      'slide-in-bottom': 'slideInBottom 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                      fadeIn: {
+                        '0%': { opacity: '0' },
+                        '100%': { opacity: '1' },
+                      },
+                      slideInRight: {
+                        '0%': { transform: 'translateX(100%)' },
+                        '100%': { transform: 'translateX(0)' },
+                      },
+                      slideInBottom: {
+                        '0%': { transform: 'translateY(20px)', opacity: '0' },
+                        '100%': { transform: 'translateY(0)', opacity: '1' },
+                      }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f4f4f5;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+        }
+        .dark body {
+            background-color: #09090b;
+        }
+        .ios-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        /* 页面切换动画辅助类 */
+        .animate-in { animation: fadeIn 0.4s ease-out forwards; }
+        .slide-in-right { animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .slide-in-bottom { animation: slideInBottom 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "@google/genai": "https://esm.sh/@google/genai@^1.41.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="font-sans antialiased text-primary selection:bg-black selection:text-white">
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

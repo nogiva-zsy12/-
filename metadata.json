@@ -1,0 +1,7 @@
+{
+  "name": "毒舌计划 (Toxic Plan)",
+  "description": "A high-pressure task management app with a toxic AI personality that mocks your procrastination to 'motivate' you through shame.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
