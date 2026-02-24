@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
         host: '0.0.0.0',
         proxy: {
           '/api': {
-            target: 'https://harmonious-nature-production-ed16.up.railway.app',
+            target: 'https://sui-kou-ji.onrender.com',
             changeOrigin: true,
           }
         }

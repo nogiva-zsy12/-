@@ -11,7 +11,7 @@ import ProfileEdit from "./views/ProfileEdit";
 import AIConfigView from "./views/AIConfig";
 import Create from "./views/Create";
 
-const API_BASE = "https://harmonious-nature-production-ed16.up.railway.app";
+const API_BASE = "https://sui-kou-ji.onrender.com";
 
 const getUserId = () => {
   if (typeof window === "undefined") return null;

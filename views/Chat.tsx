@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { ChatMessage, Task } from '../types';
 import { processUserIntent } from '../services/geminiService';
 
-const API_BASE = "https://harmonious-nature-production-ed16.up.railway.app";
+const API_BASE = "https://sui-kou-ji.onrender.com";
 
 interface ChatViewProps {
   history: ChatMessage[];

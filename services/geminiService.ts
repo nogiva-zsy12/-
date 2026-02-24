@@ -8,7 +8,7 @@ const getUserId = () => {
   }
 };
 
-const API_BASE = "https://harmonious-nature-production-ed16.up.railway.app";
+const API_BASE = "https://sui-kou-ji.onrender.com";
 
 export const recognizeSpeech = async (audioBase64: string): Promise<string> => {
   try {
