@@ -133,7 +133,7 @@ const App: React.FC = () => {
               content = `任务"${task.title}"还有${mins}分钟就要截止了！别告诉我你又忘了！`;
             }
 
-            await fetch(`${API_BASE}/api/messages", {
+            await fetch(`${API_BASE}/api/messages`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -177,7 +177,7 @@ const App: React.FC = () => {
     if (!userId) return;
 
     try {
-      const response = await fetch(`${API_BASE}/api/messages", {
+      const response = await fetch(`${API_BASE}/api/messages`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

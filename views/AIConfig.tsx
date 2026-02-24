@@ -88,7 +88,7 @@ const AIConfigView: React.FC<AIConfigProps> = ({ onBack }) => {
     setStatus(null);
     try {
       const userId = getUserId();
-      const response = await fetch(`${API_BASE}/api/ai-config", {
+      const response = await fetch(`${API_BASE}/api/ai-config`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
