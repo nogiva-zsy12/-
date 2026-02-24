@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>毒舌计划 - Toxic Plan</title>
+    <title>随口记 - 让毒舌教练督促你完成任务</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
@@ -22,11 +22,19 @@
                         stageBlue: "#3b82f6",
                         stageOrange: "#f97316",
                         stageRed: "#ef4444",
+                        accent: {
+                            purple: "#8b5cf6",
+                            pink: "#ec4899",
+                            cyan: "#06b6d4",
+                        }
                     },
                     animation: {
                       'in': 'fadeIn 0.5s ease-out forwards',
                       'slide-in-right': 'slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                       'slide-in-bottom': 'slideInBottom 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                      'float': 'float 6s ease-in-out infinite',
+                      'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                      'shimmer': 'shimmer 2s linear infinite',
                     },
                     keyframes: {
                       fadeIn: {
@@ -40,6 +48,14 @@
                       slideInBottom: {
                         '0%': { transform: 'translateY(20px)', opacity: '0' },
                         '100%': { transform: 'translateY(0)', opacity: '1' },
+                      },
+                      float: {
+                        '0%, 100%': { transform: 'translateY(0px)' },
+                        '50%': { transform: 'translateY(-10px)' },
+                      },
+                      shimmer: {
+                        '0%': { backgroundPosition: '-200% 0' },
+                        '100%': { backgroundPosition: '200% 0' },
                       }
                     }
                 }
@@ -62,10 +78,113 @@
         ::-webkit-scrollbar {
             display: none;
         }
-        /* 页面切换动画辅助类 */
         .animate-in { animation: fadeIn 0.4s ease-out forwards; }
         .slide-in-right { animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .slide-in-bottom { animation: slideInBottom 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        
+        /* 装饰性背景 */
+        .bg-decorative {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bg-decorative::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
+            animation: float 8s ease-in-out infinite;
+        }
+        .bg-decorative::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -20%;
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.06) 0%, transparent 70%);
+            animation: float 10s ease-in-out infinite reverse;
+        }
+        
+        /* 装饰性圆点 */
+        .decorative-dot {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+        
+        /* 玻璃态效果 */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .dark .glass {
+            background: rgba(24, 24, 27, 0.8);
+        }
+        
+        /* 渐变边框 */
+        .gradient-border {
+            position: relative;
+            background: linear-gradient(#fff, #fff) padding-box,
+                        linear-gradient(135deg, #8b5cf6, #ec4899, #06b6d4) border-box;
+            border: 2px solid transparent;
+        }
+        
+        /* 文字渐变 */
+        .text-gradient {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* 阴影层次 */
+        .shadow-elevation {
+            box-shadow: 
+                0 1px 2px rgba(0, 0, 0, 0.05),
+                0 2px 4px rgba(0, 0, 0, 0.05),
+                0 4px 8px rgba(0, 0, 0, 0.05),
+                0 8px 16px rgba(0, 0, 0, 0.05);
+        }
+        
+        .dark .shadow-elevation {
+            box-shadow: 
+                0 1px 2px rgba(0, 0, 0, 0.3),
+                0 2px 4px rgba(0, 0, 0, 0.3),
+                0 4px 8px rgba(0, 0, 0, 0.3),
+                0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* 微光效果 */
+        .glow {
+            position: relative;
+        }
+        .glow::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899, #06b6d4);
+            border-radius: inherit;
+            filter: blur(8px);
+            opacity: 0.5;
+            z-index: -1;
+        }
+        
+        /* 动画延迟类 */
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
     </style>
 <script type="importmap">
 {

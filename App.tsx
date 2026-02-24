@@ -491,11 +491,14 @@ const App: React.FC = () => {
   const showNav = !["LOGIN", "DETAIL", "PROFILE_EDIT", "AI_CONFIG", "CREATE_TASK"].includes(currentView);
 
   return (
-    <div className="min-h-screen flex justify-center bg-zinc-100 dark:bg-zinc-900 transition-colors duration-300">
-      <div className="w-full max-w-[430px] bg-white dark:bg-zinc-950 min-h-screen shadow-2xl relative flex flex-col overflow-hidden">
+    <div className="min-h-screen flex justify-center bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-100 dark:from-zinc-900 dark:via-zinc-950 dark:to-zinc-900 transition-colors duration-300">
+      <div className="w-full max-w-[430px] bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl min-h-screen shadow-2xl relative flex flex-col overflow-hidden">
+        {/* 装饰性顶部渐变 */}
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-purple-500/5 to-transparent pointer-events-none"></div>
+        
         {renderView()}
         {showNav && (
-          <nav className="fixed bottom-0 left-0 right-0 h-20 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl border-t border-zinc-100 dark:border-zinc-800 flex justify-around items-center px-6 pb-4 z-50 max-w-[430px] mx-auto">
+          <nav className="fixed bottom-0 left-0 right-0 h-20 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl border-t border-zinc-100/50 dark:border-zinc-800/50 flex justify-around items-center px-6 pb-4 z-50 max-w-[430px] mx-auto">
             <NavItem 
               active={currentView === "CHAT"} 
               icon="add_circle" 
@@ -539,14 +542,17 @@ interface NavItemProps {
 const NavItem: React.FC<NavItemProps> = ({ active, icon, label, badge, onClick }) => (
   <button 
     onClick={onClick} 
-    className={`relative flex flex-col items-center gap-1 transition-all ${active ? "opacity-100 scale-110" : "opacity-40 hover:opacity-60"}`}
+    className={`relative flex flex-col items-center gap-1 transition-all ${active ? "opacity-100 scale-105" : "opacity-40 hover:opacity-70"}`}
   >
-    <span className={`material-icons-round text-2xl ${active ? "text-black dark:text-white" : "text-zinc-500"}`}>
+    {active && (
+      <div className="absolute -inset-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl blur-lg"></div>
+    )}
+    <span className={`relative material-icons-round text-2xl ${active ? "text-gradient" : "text-zinc-400"}`}>
       {icon}
     </span>
-    <span className="text-[9px] font-medium dark:text-white">{label}</span>
+    <span className={`text-[9px] font-medium ${active ? "text-gradient" : "dark:text-white text-zinc-400"}`}>{label}</span>
     {badge !== undefined && badge > 0 && (
-      <span className="absolute -top-1 -right-2 w-4 h-4 bg-red-500 text-white text-[8px] font-bold rounded-full flex items-center justify-center">
+      <span className="absolute -top-1 -right-2 min-w-[18px] h-4 px-1 bg-gradient-to-r from-red-500 to-pink-500 text-white text-[8px] font-bold rounded-full flex items-center justify-center shadow-lg">
         {badge > 9 ? '9+' : badge}
       </span>
     )}

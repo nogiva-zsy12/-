@@ -62,58 +62,74 @@ const Detail: React.FC<DetailProps> = ({ task, onBack, onComplete, onDelete }) =
   const hasDeadline = task.deadline && task.deadline !== '' && task.deadline !== '未定';
 
   return (
-    <div className="flex flex-col flex-1 bg-white dark:bg-zinc-950 animate-in slide-in-from-right duration-300">
-      <nav className="flex items-center justify-between px-4 py-4 sticky top-0 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl z-30 border-b border-zinc-100 dark:border-zinc-900">
-        <button onClick={onBack} className="w-10 h-10 flex items-center justify-center text-zinc-400 hover:text-black dark:hover:text-white transition-colors">
+    <div className="relative flex flex-col flex-1 bg-white/50 dark:bg-zinc-950/50 animate-in slide-in-from-right duration-300">
+      {/* 装饰性背景 */}
+      <div className="absolute top-0 left-0 right-0 h-48 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-purple-500/10 to-pink-500/10 rounded-full blur-3xl"></div>
+      </div>
+      
+      <nav className="relative flex items-center justify-between px-4 py-4 sticky top-0 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl z-30 border-b border-zinc-100/50 dark:border-zinc-900/50">
+        <button onClick={onBack} className="w-10 h-10 flex items-center justify-center text-zinc-400 hover:text-black dark:hover:text-white transition-colors rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800">
           <span className="material-icons-round">arrow_back</span>
         </button>
         <h1 className="text-sm font-medium text-zinc-400">任务详情</h1>
         <button 
           onClick={() => { if(confirm('确定要删除这个任务吗？')) onDelete(); }}
-          className="w-10 h-10 flex items-center justify-center text-zinc-300 hover:text-red-500 transition-colors"
+          className="w-10 h-10 flex items-center justify-center text-zinc-300 hover:text-red-500 transition-colors rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20"
         >
           <span className="material-icons-round">delete_outline</span>
         </button>
       </nav>
 
-      <main className="flex-1 px-6 pb-32">
+      <main className="relative flex-1 px-6 pb-32">
         <div className="mt-6 mb-8">
           <div className="flex items-center gap-2 mb-3">
-             <span className={`px-2 py-1 text-[10px] font-medium rounded ${
-               task.status === TaskStatus.COMPLETED 
-                 ? 'bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400'
-                 : task.status === TaskStatus.EXPIRED
-                   ? 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400'
-                   : 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
-             }`}>
-               {task.status === TaskStatus.COMPLETED ? '已完成' : task.status === TaskStatus.EXPIRED ? '已过期' : '进行中'}
-             </span>
-          </div>
-          <h2 className="text-2xl font-bold dark:text-white leading-tight">{task.title}</h2>
-          <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">{task.description}</p>
-          {task.createdAt && (
-            <p className="mt-2 text-xs text-zinc-400">创建于: {formatCreatedTime(task.createdAt)}</p>
-          )}
+             <span className={`px-3 py-1.5 text-[10px] font-semibold rounded-full ${
+                task.status === TaskStatus.COMPLETED 
+                  ? 'bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 text-green-600 dark:text-green-400'
+                  : task.status === TaskStatus.EXPIRED
+                    ? 'bg-gradient-to-r from-red-100 to-orange-100 dark:from-red-900/30 dark:to-orange-900/30 text-red-600 dark:text-red-400'
+                    : 'bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-600 dark:text-blue-400'
+              }`}>
+                {task.status === TaskStatus.COMPLETED ? '✓ 已完成' : task.status === TaskStatus.EXPIRED ? '⚠ 已过期' : '进行中'}
+              </span>
+              {task.frequency && task.frequency !== 'ONCE' && (
+                <span className="px-2 py-1 text-[10px] font-medium rounded-full bg-gradient-to-r from-cyan-100 to-blue-100 dark:from-cyan-900/30 dark:to-blue-900/30 text-cyan-600 dark:text-cyan-400">
+                  {task.frequency === 'DAILY' ? '每天' : '每周'}
+                </span>
+              )}
+           </div>
+           <h2 className="text-2xl font-bold dark:text-white leading-tight">{task.title}</h2>
+           <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">{task.description || '暂无描述'}</p>
+           {task.createdAt && (
+             <p className="mt-3 text-xs text-zinc-400 flex items-center gap-1">
+               <span className="material-icons-round text-[12px]">schedule</span>
+               创建于: {formatCreatedTime(task.createdAt)}
+             </p>
+           )}
         </div>
 
-        <div className="bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-6">
-          <div className="text-center mb-6">
-            <div className={`text-5xl font-mono font-bold dark:text-white ${timeRemaining?.isExpired ? 'text-red-500' : ''}`}>
-              {hasDeadline ? countdown : '未设置'}
+        <div className="relative bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-900 dark:to-zinc-950 rounded-2xl p-6 border border-zinc-100/50 dark:border-zinc-800/50 overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          
+          <div className="text-center mb-6 relative">
+            <div className={`relative inline-block text-5xl font-mono font-bold dark:text-white ${timeRemaining?.isExpired ? 'text-red-500' : ''}`}>
+              {hasDeadline ? countdown : '--:--'}
             </div>
             {hasDeadline && timeRemaining && !timeRemaining.isExpired && timeRemaining.hours > 0 && (
-              <p className="text-xs text-zinc-400 mt-2">
+              <p className="text-xs text-zinc-400 mt-2 flex items-center justify-center gap-1">
+                <span className="material-icons-round text-[12px]">timer</span>
                 剩余 {timeRemaining.hours}小时 {timeRemaining.minutes}分钟
               </p>
             )}
           </div>
           
-          <div className="space-y-3">
+          <div className="space-y-3 relative">
             <div className="flex justify-between items-center text-xs">
-              <span className="text-zinc-400">完成进度</span>
-              <span className="font-medium dark:text-white">{task.progress}%</span>
+              <span className="text-zinc-400 font-medium">完成进度</span>
+              <span className="font-bold dark:text-white">{task.progress}%</span>
             </div>
-            <div className="h-2 w-full bg-zinc-200 dark:bg-zinc-700 rounded-full overflow-hidden">
+            <div className="h-3 w-full bg-zinc-200/50 dark:bg-zinc-700/50 rounded-full overflow-hidden">
               <div 
                 className={`h-full rounded-full transition-all duration-500 ${progressColor}`}
                 style={{ width: `${task.progress}%` }}
@@ -123,14 +139,26 @@ const Detail: React.FC<DetailProps> = ({ task, onBack, onComplete, onDelete }) =
         </div>
 
         <div className="mt-6">
-          <div className="bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-5 border-l-4 border-blue-500">
+          <div className="relative bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-900 dark:to-zinc-950 rounded-2xl p-5 border-l-4 border-gradient-to-b from-purple-500 to-pink-500 overflow-hidden group">
+            <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full blur-2xl"></div>
+            
+            <div className="flex items-center gap-2 mb-3 relative">
+              <span className="text-[10px] font-semibold text-purple-500 uppercase tracking-wider">毒舌教练</span>
+              <span className="text-zinc-300">·</span>
+              <span className="text-xs text-zinc-400">AI 激励</span>
+            </div>
+            
             {loading ? (
               <div className="flex items-center gap-2 py-2">
-                <div className="w-2 h-2 bg-zinc-400 rounded-full animate-pulse"></div>
-                <span className="text-xs text-zinc-400">思考中...</span>
+                <div className="flex gap-1">
+                  <span className="w-2 h-2 bg-purple-500 rounded-full animate-bounce"></span>
+                  <span className="w-2 h-2 bg-pink-500 rounded-full animate-bounce delay-100"></span>
+                  <span className="w-2 h-2 bg-cyan-500 rounded-full animate-bounce delay-200"></span>
+                </div>
+                <span className="text-xs text-zinc-400">AI 正在思考...</span>
               </div>
             ) : (
-              <p className="text-sm font-medium dark:text-zinc-200 leading-relaxed">
+              <p className="text-sm font-medium dark:text-zinc-200 leading-relaxed relative">
                 {insult}
               </p>
             )}

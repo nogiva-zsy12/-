@@ -196,31 +196,39 @@ const ChatView: React.FC<ChatViewProps> = ({ history, onSendMessage, onTaskCreat
   };
 
   return (
-    <div className="flex flex-col flex-1 pb-20 animate-in">
-      <header className="px-6 pt-12 pb-5 border-b border-zinc-100 dark:border-zinc-800 sticky top-0 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl z-10">
+    <div className="relative flex flex-col flex-1 pb-20 animate-in">
+      {/* 装饰性背景 */}
+      <div className="absolute top-0 left-0 right-0 h-32 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-0 w-48 h-48 bg-gradient-to-br from-pink-500/10 to-purple-500/10 rounded-full blur-3xl"></div>
+      </div>
+      
+      <header className="relative px-6 pt-12 pb-5 border-b border-zinc-100/50 dark:border-zinc-800/50 sticky top-0 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl z-10">
         <div className="flex items-end justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-black tracking-tight dark:text-white leading-none">Toxic Plan</h1>
+            <h1 className="text-2xl font-black tracking-tight dark:text-white leading-none">
+              <span className="text-gradient">随口记</span>
+            </h1>
             <p className={`text-xs mt-2 ${getStatusColor()}`}>{getStatusText()}</p>
           </div>
           <div className="flex items-center gap-2">
-            <span className="px-2 py-1 text-[10px] font-semibold rounded-full bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300">
-              Poison Mode
+            <span className="px-2 py-1 text-[10px] font-semibold rounded-full bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 text-purple-600 dark:text-purple-300">
+              毒舌模式
             </span>
-            <span className="px-2 py-1 text-[10px] font-semibold rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300">
-              Task Forge
+            <span className="px-2 py-1 text-[10px] font-semibold rounded-full bg-gradient-to-r from-cyan-100 to-blue-100 dark:from-cyan-900/30 dark:to-blue-900/30 text-cyan-600 dark:text-cyan-300">
+              AI 助手
             </span>
           </div>
         </div>
         {pendingTask && (
-          <div className="mt-4 rounded-2xl border border-zinc-100 dark:border-zinc-800 bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-900 dark:to-zinc-950 p-4">
-            <div className="flex items-center justify-between gap-3">
+          <div className="mt-4 relative rounded-2xl border border-purple-200/50 dark:border-purple-800/50 bg-gradient-to-br from-purple-50/50 to-pink-50/50 dark:from-purple-900/20 dark:to-pink-900/20 p-4 overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="flex items-center justify-between gap-3 relative">
               <div className="min-w-0">
-                <p className="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold">Pending Task</p>
+                <p className="text-[10px] uppercase tracking-wider text-purple-500 font-semibold">待确认任务</p>
                 <p className="text-sm font-semibold truncate dark:text-white">{pendingTask.title}</p>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
-                <span className="px-2 py-1 text-[10px] rounded-full bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-300">
+                <span className="px-2 py-1 text-[10px] rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400">
                   {pendingTask.deadline ? `截止 ${pendingTask.deadline}` : '缺少时间'}
                 </span>
                 <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
@@ -230,13 +238,20 @@ const ChatView: React.FC<ChatViewProps> = ({ history, onSendMessage, onTaskCreat
         )}
       </header>
       
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+      <div ref={scrollRef} className="relative flex-1 overflow-y-auto px-4 py-4 space-y-4">
+        {/* 聊天背景装饰 */}
+        <div className="absolute inset-0 pointer-events-none opacity-30">
+          <div className="absolute top-20 left-4 w-2 h-2 bg-purple-300/30 rounded-full"></div>
+          <div className="absolute top-40 right-8 w-3 h-3 bg-pink-300/20 rounded-full"></div>
+          <div className="absolute bottom-40 left-1/4 w-2 h-2 bg-cyan-300/20 rounded-full"></div>
+        </div>
+        
         {history.map((msg: ChatMessage) => (
           <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[80%] p-4 rounded-2xl ${
               msg.role === 'user' 
-                ? 'bg-black dark:bg-white text-white dark:text-black' 
-                : 'bg-zinc-100 dark:bg-zinc-800 dark:text-white'
+                ? 'bg-gradient-to-r from-black to-zinc-800 dark:from-white dark:to-zinc-200 text-white dark:text-black' 
+                : 'bg-gradient-to-r from-zinc-100 to-zinc-50 dark:from-zinc-800 dark:to-zinc-900 dark:text-white'
             }`}>
               <p className="text-sm leading-relaxed">{msg.content}</p>
               <span className="text-[10px] opacity-50 mt-1 block">{msg.time}</span>
@@ -245,23 +260,23 @@ const ChatView: React.FC<ChatViewProps> = ({ history, onSendMessage, onTaskCreat
         ))}
         {isTyping && (
           <div className="flex justify-start">
-            <div className="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-2xl">
+            <div className="bg-gradient-to-r from-zinc-100 to-zinc-50 dark:from-zinc-800 dark:to-zinc-900 p-4 rounded-2xl">
               <div className="flex gap-1">
-                <span className="w-2 h-2 bg-zinc-400 rounded-full animate-bounce"></span>
-                <span className="w-2 h-2 bg-zinc-400 rounded-full animate-bounce delay-100"></span>
-                <span className="w-2 h-2 bg-zinc-400 rounded-full animate-bounce delay-200"></span>
+                <span className="w-2 h-2 bg-purple-500 rounded-full animate-bounce"></span>
+                <span className="w-2 h-2 bg-pink-500 rounded-full animate-bounce delay-100"></span>
+                <span className="w-2 h-2 bg-cyan-500 rounded-full animate-bounce delay-200"></span>
               </div>
             </div>
           </div>
         )}
       </div>
       
-      <div className="p-4 bg-white dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-800">
-        <div className="flex items-center gap-2 bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-1.5">
+      <div className="relative p-4 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl border-t border-zinc-100/50 dark:border-zinc-800/50">
+        <div className="flex items-center gap-2 bg-zinc-50/80 dark:bg-zinc-900/80 rounded-2xl p-1.5 border border-zinc-200/50 dark:border-zinc-800/50">
           <button
             type="button"
             onClick={toggleRecording}
-            className={`w-11 h-11 flex items-center justify-center rounded-xl transition-all ${
+            className={`relative w-11 h-11 flex items-center justify-center rounded-xl transition-all ${
               isRecording
                 ? 'bg-red-500 text-white animate-pulse'
                 : isRecognizing
