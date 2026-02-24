@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
         host: '0.0.0.0',
         proxy: {
           '/api': {
-            target: 'http://localhost:4000',
+            target: 'https://harmonious-nature-production-ed16.up.railway.app',
             changeOrigin: true,
           }
         }
