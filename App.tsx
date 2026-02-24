@@ -11,6 +11,8 @@ import ProfileEdit from "./views/ProfileEdit";
 import AIConfigView from "./views/AIConfig";
 import Create from "./views/Create";
 
+const API_BASE = "https://harmonious-nature-production-ed16.up.railway.app";
+
 const getUserId = () => {
   if (typeof window === "undefined") return null;
   try {
@@ -42,8 +44,8 @@ const App: React.FC = () => {
         const headers = userId ? { "x-user-id": userId } : {};
 
         const [tasksRes, messagesRes] = await Promise.all([
-          fetch("/api/tasks", { headers }),
-          fetch("/api/messages", { headers }),
+          fetch(`${API_BASE}/api/tasks`, { headers }),
+          fetch(`${API_BASE}/api/messages`, { headers }),
         ]);
 
         if (tasksRes.ok) {
@@ -114,7 +116,7 @@ const App: React.FC = () => {
               content = `任务"${task.title}"已经过期了！你又要拖延了吗？`;
               type = 'WARNING';
 
-              await fetch(`/api/tasks/${task.id}`, {
+              await fetch(`${API_BASE}/api/tasks/${task.id}`, {
                 method: "PATCH",
                 headers: {
                   "Content-Type": "application/json",
@@ -131,7 +133,7 @@ const App: React.FC = () => {
               content = `任务"${task.title}"还有${mins}分钟就要截止了！别告诉我你又忘了！`;
             }
 
-            await fetch("/api/messages", {
+            await fetch(`${API_BASE}/api/messages", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -175,7 +177,7 @@ const App: React.FC = () => {
     if (!userId) return;
 
     try {
-      const response = await fetch("/api/messages", {
+      const response = await fetch(`${API_BASE}/api/messages", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -213,7 +215,7 @@ const App: React.FC = () => {
       };
 
       const userId = getUserId();
-      const response = await fetch("/api/tasks", {
+      const response = await fetch(`${API_BASE}/api/tasks`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -257,7 +259,7 @@ const App: React.FC = () => {
   const handleUpdateTask = async (taskId: string, updates: { deadline?: string; frequency?: string }) => {
     try {
       const userId = getUserId();
-      const response = await fetch(`/api/tasks/${taskId}`, {
+      const response = await fetch(`${API_BASE}/api/tasks/${taskId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -332,7 +334,7 @@ const App: React.FC = () => {
     try {
       const task = tasks.find(t => t.id === taskId);
       const userId = getUserId();
-      const response = await fetch(`/api/tasks/${taskId}`, {
+      const response = await fetch(`${API_BASE}/api/tasks/${taskId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -366,7 +368,7 @@ const App: React.FC = () => {
   const handleDeleteTask = async (taskId: string) => {
     try {
       const userId = getUserId();
-      const response = await fetch(`/api/tasks/${taskId}`, {
+      const response = await fetch(`${API_BASE}/api/tasks/${taskId}`, {
         method: "DELETE",
         headers: {
           ...(userId ? { "x-user-id": userId } : {}),
@@ -392,7 +394,7 @@ const App: React.FC = () => {
   const handleDeleteMessage = async (messageId: string) => {
     try {
       const userId = getUserId();
-      const response = await fetch(`/api/messages/${messageId}`, {
+      const response = await fetch(`${API_BASE}/api/messages/${messageId}`, {
         method: "DELETE",
         headers: {
           ...(userId ? { "x-user-id": userId } : {}),

@@ -1,6 +1,8 @@
 
 import React, { useState } from 'react';
 
+const API_BASE = "https://harmonious-nature-production-ed16.up.railway.app";
+
 interface LoginProps {
   onLogin: () => void;
 }
@@ -21,7 +23,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     setLoading(true);
     
     try {
-      const response = await fetch("/api/auth/login-or-register", {
+      const response = await fetch(`${API_BASE}/api/auth/login-or-register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: username.trim(), password }),

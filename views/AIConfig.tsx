@@ -1,6 +1,8 @@
 
 import React, { useEffect, useState } from 'react';
 
+const API_BASE = "https://harmonious-nature-production-ed16.up.railway.app";
+
 interface AIConfigProps {
   onBack: () => void;
 }
@@ -45,7 +47,7 @@ const AIConfigView: React.FC<AIConfigProps> = ({ onBack }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const configRes = await fetch("/api/ai-config");
+        const configRes = await fetch(`${API_BASE}/api/ai-config`);
         if (configRes.ok) {
           const configData = await configRes.json();
           setModelKey(configData.modelKey || "deepseek-chat");
@@ -53,7 +55,7 @@ const AIConfigView: React.FC<AIConfigProps> = ({ onBack }) => {
           setConfigured(configData.configured || false);
         }
 
-        const modelsRes = await fetch("/api/ai-models");
+        const modelsRes = await fetch(`${API_BASE}/api/ai-models`);
         if (modelsRes.ok) {
           const modelsData = await modelsRes.json();
           if (Array.isArray(modelsData.models) && modelsData.models.length > 0) {
@@ -86,7 +88,7 @@ const AIConfigView: React.FC<AIConfigProps> = ({ onBack }) => {
     setStatus(null);
     try {
       const userId = getUserId();
-      const response = await fetch("/api/ai-config", {
+      const response = await fetch(`${API_BASE}/api/ai-config", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

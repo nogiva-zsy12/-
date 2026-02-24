@@ -3,6 +3,8 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { ChatMessage, Task } from '../types';
 import { processUserIntent } from '../services/geminiService';
 
+const API_BASE = "https://harmonious-nature-production-ed16.up.railway.app";
+
 interface ChatViewProps {
   history: ChatMessage[];
   onSendMessage: (msg: ChatMessage) => void;
@@ -50,7 +52,7 @@ const ChatView: React.FC<ChatViewProps> = ({ history, onSendMessage, onTaskCreat
           .reduce((data, byte) => data + String.fromCharCode(byte), '')
       );
 
-      const response = await fetch('/api/speech/recognize', {
+      const response = await fetch(`${API_BASE}/api/speech/recognize`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ audio: base64 }),

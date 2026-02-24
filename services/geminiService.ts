@@ -8,9 +8,11 @@ const getUserId = () => {
   }
 };
 
+const API_BASE = "https://harmonious-nature-production-ed16.up.railway.app";
+
 export const recognizeSpeech = async (audioBase64: string): Promise<string> => {
   try {
-    const response = await fetch('/api/speech/recognize', {
+    const response = await fetch(`${API_BASE}/api/speech/recognize`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ audio: audioBase64 }),
@@ -31,7 +33,7 @@ export const recognizeSpeech = async (audioBase64: string): Promise<string> => {
 export const processUserIntent = async (input: string, history?: any[]): Promise<{ reply: string; task?: any; intent?: string; needMore?: boolean }> => {
   const userId = getUserId();
   try {
-    const response = await fetch("/api/chat", {
+    const response = await fetch(`${API_BASE}/api/chat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -77,7 +79,7 @@ export const processUserIntent = async (input: string, history?: any[]): Promise
 export const getToxicInsult = async (taskTitle: string, context: string): Promise<string> => {
   const userId = getUserId();
   try {
-    const response = await fetch("/api/insult", {
+    const response = await fetch(`${API_BASE}/api/insult`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
